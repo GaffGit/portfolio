@@ -1,0 +1,26 @@
+# Personal notes, not part of the project
+brief.md
+
+# Dependencies - reinstallable from package.json, and enormous
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Secrets and local config
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# OS clutter
+.DS_Store
+Thumbs.db
