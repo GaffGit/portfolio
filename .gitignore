@@ -1,5 +1,6 @@
 # Personal notes, not part of the project
 brief.md
+reference/
 
 # Dependencies - reinstallable from package.json, and enormous
 node_modules/
