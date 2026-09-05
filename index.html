@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script>document.documentElement.classList.add('js');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thomas Rickström — Software Developer</title>
+  <meta name="description"
+    content="Personal portfolio of Thomas Rickström, computer science student and software developer.">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+      <!-- The path suffix is decorative and changes as you scroll, so it's
+           hidden from assistive tech and the link keeps a stable label. -->
+      <a class="brand" href="#home" aria-label="Home">TR<span class="brand-path" id="brand-path"
+          aria-hidden="true"></span></a>
+
+      <nav class="nav" aria-label="Main">
+        <ul class="nav-list">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#github">GitHub</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="btn btn-sm" href="cv.pdf" download>CV</a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===================== HERO ===================== -->
+    <section id="home" class="hero">
+      <div class="container">
+
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="terminal-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="terminal-title">thomas@portfolio: ~</span>
+          </div>
+
+
+          <div class="terminal-body" id="terminal">
+
+            <div class="boot">
+              <div class="step">
+                <p class="cmd"><span class="prompt" aria-hidden="true">$</span><span class="typed">whoami</span></p>
+                <div class="out">
+                  <h1>Thomas Rickström</h1>
+                  <p class="eyebrow">Computer Science student</p>
+                </div>
+              </div>
+
+              <div class="step">
+                <p class="cmd"><span class="prompt" aria-hidden="true">$</span><span class="typed">cat about.txt</span>
+                </p>
+                <div class="out">
+                  <p class="lead">
+                    I build web applications, end to end. Currently studying computer science
+                    and looking for a summer internship in software development.
+                  </p>
+                </div>
+              </div>
+
+              <div class="step">
+                <p class="cmd"><span class="prompt" aria-hidden="true">$</span><span class="typed">ls ./links</span></p>
+                <div class="out">
+                  <ul class="social">
+                    <li><a href="https://github.com/GaffGit">github</a></li>
+                    <li><a href="#">linkedin</a></li>
+                    <li><a href="mailto:you@example.com">email</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Command output lands here. aria-live means screen readers
+                 announce new output without the user having to hunt for it. -->
+            <div class="history" id="history" aria-live="polite"></div>
+
+            <!-- Hidden until the boot sequence finishes. Stays hidden without
+                 JavaScript, because an input that does nothing is worse than none. -->
+            <form class="prompt-line" id="prompt-form" hidden>
+              <label class="sr-only" for="cmd-input">Enter a command</label>
+              <span class="prompt" aria-hidden="true">$</span>
+              <input id="cmd-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off"
+                spellcheck="false">
+            </form>
+
+            <!-- Static cursor shown pre-JS; replaced by the live prompt above. -->
+            <p class="cmd" id="boot-cursor"><span class="prompt" aria-hidden="true">$</span><span class="cursor"
+                aria-hidden="true"></span></p>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn" href="#projects">View my work</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+
+      </div>
+
+      <a class="scroll-cue" href="#projects" aria-label="Scroll to projects">
+        <span aria-hidden="true">▼</span>
+      </a>
+    </section>
+
+    <!-- ===================== PROJECTS ===================== -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2 class="section-title">Projects</h2>
+        <p class="section-intro">
+          A few things I've built. Each one taught me something I couldn't have read my way to.
+        </p>
+
+        <!-- NOTE: this list is rendered from PostgreSQL
+             via GET /api/projects. Hardcoded for now. -->
+        <ul class="card-grid">
+
+          <li class="card">
+            <h3 class="card-title">Project One</h3>
+            <p class="card-body">
+              One or two sentences on the problem it solves and what you actually built.
+              Focus on your decisions, not the feature list.
+            </p>
+            <ul class="tags">
+              <li>TypeScript</li>
+              <li>React</li>
+              <li>PostgreSQL</li>
+            </ul>
+            <div class="card-links">
+              <a href="#">Source</a>
+              <a href="#">Live demo</a>
+            </div>
+          </li>
+
+          <li class="card">
+            <h3 class="card-title">Project Two</h3>
+            <p class="card-body">
+              Placeholder description. Replace with something real.
+            </p>
+            <ul class="tags">
+              <li>Java</li>
+              <li>Spring</li>
+            </ul>
+            <div class="card-links">
+              <a href="#">Source</a>
+            </div>
+          </li>
+
+          <li class="card">
+            <h3 class="card-title">Project Three</h3>
+            <p class="card-body">
+              Placeholder description. Replace with something real.
+            </p>
+            <ul class="tags">
+              <li>Python</li>
+              <li>Docker</li>
+            </ul>
+            <div class="card-links">
+              <a href="#">Source</a>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== SKILLS ===================== -->
+    <section id="skills" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">Technical knowledge</h2>
+        <p class="section-intro">
+          Things I've used on real projects, grouped roughly by how often I reach for them.
+        </p>
+
+        <div class="skills-grid">
+          <div class="skill-group">
+            <h3 class="skill-heading">Languages</h3>
+            <ul class="tags">
+              <li>TypeScript</li>
+              <li>JavaScript</li>
+              <li>Java</li>
+              <li>Python</li>
+              <li>SQL</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3 class="skill-heading">Frontend</h3>
+            <ul class="tags">
+              <li>React</li>
+              <li>HTML</li>
+              <li>CSS</li>
+              <li>Tailwind</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3 class="skill-heading">Backend</h3>
+            <ul class="tags">
+              <li>Node.js</li>
+              <li>Express</li>
+              <li>REST APIs</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3 class="skill-heading">Data</h3>
+            <ul class="tags">
+              <li>PostgreSQL</li>
+              <li>Schema design</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3 class="skill-heading">Tooling &amp; infrastructure</h3>
+            <ul class="tags">
+              <li>Git</li>
+              <li>Docker</li>
+              <li>GitHub Actions</li>
+              <li>Linux</li>
+            </ul>
+          </div>
+
+          <div class="skill-group">
+            <h3 class="skill-heading">Practices</h3>
+            <ul class="tags">
+              <li>Testing</li>
+              <li>Code review</li>
+              <li>CI/CD</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== EXPERIENCE ===================== -->
+    <section id="experience" class="section">
+      <div class="container">
+        <h2 class="section-title">Experience</h2>
+
+        <ol class="timeline">
+          <li class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-date">2025 — present</span>
+            </div>
+            <div class="timeline-body">
+              <h3 class="timeline-role">Job Title</h3>
+              <p class="timeline-org">Company Name</p>
+              <p>
+                placeholder
+              </p>
+              <ul class="tags">
+                <li>Technology</li>
+                <li>Technology</li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="timeline-item">
+            <div class="timeline-meta">
+              <span class="timeline-date">2024 — 2025</span>
+            </div>
+            <div class="timeline-body">
+              <h3 class="timeline-role">Job Title</h3>
+              <p class="timeline-org">Company Name</p>
+              <p>Placeholder. Non-technical jobs count — reliability and teamwork read well.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section id="about" class="section section-alt">
+      <div class="container">
+        <h2 class="section-title">About me</h2>
+
+        <div class="about-grid">
+          <div>
+            <h3 class="skill-heading">Education</h3>
+            <p>
+              BSc Computer Science, University of Jyväskylä — expected 20XX.<br>
+              Relevant coursework: data structures, databases, software engineering.
+            </p>
+
+            <h3 class="skill-heading">Interests</h3>
+            <p>
+              What you do when you're not at a keyboard, and anything technical you
+              follow out of genuine curiosity.
+            </p>
+          </div>
+
+          <aside class="about-aside" id="cv">
+            <h3 class="skill-heading">Curriculum vitae</h3>
+            <p>Full education and work history as a PDF.</p>
+            <a class="btn" href="cv.pdf" download>Download CV</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== GITHUB ===================== -->
+    <section id="github" class="section">
+      <div class="container">
+        <h2 class="section-title">GitHub</h2>
+        <p class="section-intro">
+          Most of what I build is public. Recent activity below.
+        </p>
+
+        <!-- NOTE: replaces this with live data from GET /api/github/repos,
+             which proxies the GitHub API through our backend so the token stays
+             server-side and responses are cached. -->
+        <ul class="card-grid" id="github-repos">
+          <li class="card card-muted">
+            <p class="card-body">Repository list loads here in Phase 7.</p>
+          </li>
+        </ul>
+
+        <p><a class="btn btn-ghost" href="https://github.com/GaffGit">View profile on GitHub</a></p>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="section section-alt">
+      <div class="container container-narrow">
+        <h2 class="section-title">Get in touch</h2>
+        <p class="section-intro">
+          Open to internships and junior roles. The fastest way to reach me is email.
+        </p>
+
+        <!-- NOTE: wire this to POST /api/contact with server-side
+             validation and rate limiting. Inert for now. -->
+        <form class="contact-form" novalidate>
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+
+          <button class="btn" type="submit">Send message</button>
+        </form>
+
+        <p class="contact-fallback">
+          Or email me directly at <a href="mailto:you@example.com">you@example.com</a>.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; <span id="year">2026</span> Thomas Rickström</p>
+      <ul class="social">
+        <li><a href="https://github.com/GaffGit">github</a></li>
+        <li><a href="#">linkedin</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+
+</html>

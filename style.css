@@ -1,0 +1,607 @@
+/* =========================================================================
+   Portfolio — terminal theme
+   Organised as: tokens → reset → layout → components → sections → responsive
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1. Design tokens
+   Dark-only by design: a terminal aesthetic has no coherent light variant,
+   so we commit rather than compromise. color-scheme tells the browser to
+   render scrollbars and form controls dark too.
+   ------------------------------------------------------------------------- */
+:root {
+  color-scheme: dark;
+
+  --bg:            #0a0e0d;
+  --bg-alt:        #0e1413;
+  --surface:       #111917;
+  --border:        #1f2d29;
+  --border-bright: #2c403a;
+  --text:          #cdd9d4;
+  --text-muted:    #74877f;
+  --accent:        #4fd18b;
+  --accent-hover:  #7fe5b0;
+  --accent-soft:   #10221b;
+
+  --font-mono: ui-monospace, "JetBrains Mono", "Cascadia Code", "SF Mono",
+               Menlo, Consolas, "Liberation Mono", monospace;
+
+  --step--1: clamp(0.80rem, 0.77rem + 0.14vw, 0.87rem);
+  --step-0:  clamp(0.94rem, 0.90rem + 0.18vw, 1.02rem);
+  --step-1:  clamp(1.10rem, 1.02rem + 0.38vw, 1.30rem);
+  --step-2:  clamp(1.40rem, 1.22rem + 0.80vw, 1.85rem);
+  --step-3:  clamp(1.85rem, 1.45rem + 1.85vw, 3.00rem);
+
+  --space-xs: 0.5rem;
+  --space-sm: 0.875rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+
+  --radius: 6px;
+  --header-h: 3.5rem;
+  --measure: 68ch;
+}
+
+/* -------------------------------------------------------------------------
+   2. Reset & base
+   ------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + var(--space-md));
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--accent); color: var(--bg); }
+
+h1, h2, h3 { line-height: 1.25; text-wrap: balance; margin: 0 0 var(--space-sm); }
+h1 { font-size: var(--step-3); letter-spacing: -0.02em; color: var(--text); }
+h2 { font-size: var(--step-2); }
+h3 { font-size: var(--step-1); }
+
+p { margin: 0 0 var(--space-md); max-width: var(--measure); text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+a:hover { color: var(--accent-hover); }
+
+img { max-width: 100%; height: auto; display: block; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   3. Layout
+   ------------------------------------------------------------------------- */
+.container {
+  width: min(100% - 2.5rem, 68rem);
+  margin-inline: auto;
+}
+.container-narrow { width: min(100% - 2.5rem, 44rem); }
+
+.section { padding-block: var(--space-2xl); }
+.section-alt { background: var(--bg-alt); }
+
+/* Section headings read as shell commands. The "$" is decorative only —
+   aria-hidden isn't available on generated content, but screen readers
+   still announce the heading text itself, which is what matters. */
+.section-title {
+  font-weight: 600;
+  text-transform: lowercase;
+  margin-bottom: var(--space-xs);
+}
+.section-title::before {
+  content: "$ ";
+  color: var(--accent);
+}
+
+.section-intro {
+  color: var(--text-muted);
+  font-size: var(--step-0);
+  margin-bottom: var(--space-lg);
+}
+.section-intro::before {
+  content: "# ";
+  color: var(--border-bright);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: var(--space-xs);
+  background: var(--surface);
+  color: var(--text);
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  z-index: 100;
+}
+.skip-link:focus { left: var(--space-md); }
+
+/* -------------------------------------------------------------------------
+   4. Header & navigation
+   ------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s ease;
+}
+
+/* Phase 2: JavaScript adds .is-scrolled once the page moves. */
+.site-header.is-scrolled { border-bottom-color: var(--border); }
+
+.header-inner {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.brand {
+  font-weight: 700;
+  font-size: var(--step-0);
+  color: var(--accent);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.brand::before { content: "~/"; color: var(--text-muted); }
+.brand-path { color: var(--text-muted); font-weight: 400; }
+
+.nav { margin-inline-start: auto; overflow-x: auto; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+
+.nav-list {
+  display: flex;
+  gap: var(--space-md);
+  white-space: nowrap;
+}
+
+.nav-list a {
+  color: var(--text-muted);
+  text-decoration: none;
+  text-transform: lowercase;
+  font-size: var(--step--1);
+  padding-block: var(--space-xs);
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.nav-list a:hover { color: var(--accent); }
+
+/* Phase 2: scroll-spy sets aria-current on the link for the visible section. */
+.nav-list a[aria-current="true"] {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* -------------------------------------------------------------------------
+   5. Buttons & tags
+   ------------------------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: var(--step--1);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.btn:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--bg);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--border-bright);
+}
+.btn-ghost:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+
+.btn-sm { padding: 0.3rem 0.8rem; flex-shrink: 0; }
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+}
+.tags li {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.05rem 0.45rem;
+}
+.tags li::before { content: "["; color: var(--border-bright); }
+.tags li::after  { content: "]"; color: var(--border-bright); }
+
+/* -------------------------------------------------------------------------
+   6. Hero — fills exactly one viewport so nothing below peeks in
+   ------------------------------------------------------------------------- */
+.hero {
+  position: relative;
+  min-height: calc(100vh - var(--header-h));
+  min-height: calc(100svh - var(--header-h));  /* excludes mobile browser chrome */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: var(--space-lg) var(--space-2xl);
+}
+
+/* --- the terminal window ------------------------------------------------ */
+.terminal {
+  background: var(--surface);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  overflow: hidden;
+  max-width: 52rem;
+}
+
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.5rem var(--space-sm);
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+}
+
+.terminal-dots { display: flex; gap: 0.4rem; }
+.terminal-dots i {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: var(--border-bright);
+}
+.terminal-dots i:first-child { background: #3f4b47; }
+
+.terminal-title {
+  font-size: var(--step--1);
+  color: var(--text-muted);
+}
+
+.terminal-body {
+  padding: var(--space-md);
+  /* Output accumulates as commands are run. Cap the window and let it scroll
+     rather than letting the hero grow past a single screen. */
+  max-height: min(68svh, 38rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-bright) transparent;
+}
+
+/* --- boot animation ----------------------------------------------------
+   Hidden only when JavaScript is present (the .js class is set by an inline
+   script in <head>). visibility rather than display, so the terminal keeps
+   its final height from the first paint and nothing shifts as text appears. */
+.js .boot .step { visibility: hidden; }
+
+.step + .step { margin-top: var(--space-md); }
+.out > :last-child { margin-bottom: 0; }
+
+/* --- live prompt -------------------------------------------------------- */
+.history:not(:empty) { margin-top: var(--space-md); }
+.history .out { margin-top: var(--space-xs); font-size: var(--step--1); color: var(--text-muted); }
+.history .out p { margin: 0; white-space: pre-wrap; }
+.history .error { color: #e57a7a; }
+.history .help p:first-child { color: var(--text); }
+
+.prompt-line {
+  display: flex;
+  align-items: center;
+  margin-top: var(--space-md);
+}
+
+.prompt-line input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--text);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  outline: none;
+  caret-color: var(--accent);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- command lines ------------------------------------------------------ */
+.cmd {
+  font-size: var(--step--1);
+  color: var(--text-muted);
+  margin-bottom: var(--space-xs);
+}
+.cmd:last-child { margin-bottom: 0; }
+
+.prompt { color: var(--accent); font-weight: 700; margin-right: 0.4rem; }
+
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.05em;
+  background: var(--accent);
+  vertical-align: -0.18em;
+  animation: blink 1.1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.terminal-body h1 { margin-bottom: 0.15rem; }
+
+.eyebrow {
+  font-size: var(--step--1);
+  color: var(--accent);
+  margin-bottom: var(--space-md);
+}
+
+.lead {
+  color: var(--text);
+  max-width: 58ch;
+  margin-bottom: var(--space-md);
+}
+
+.social { display: flex; flex-wrap: wrap; gap: var(--space-md); }
+.social a {
+  font-size: var(--step--1);
+  color: var(--accent);
+  text-decoration: none;
+}
+.social a::before { content: "./"; color: var(--text-muted); }
+.social a:hover { text-decoration: underline; }
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+/* --- scroll cue --------------------------------------------------------- */
+.scroll-cue {
+  position: absolute;
+  bottom: var(--space-md);
+  left: 50%;
+  translate: -50% 0;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: var(--step--1);
+  padding: var(--space-xs);
+  animation: nudge 2.2s ease-in-out infinite;
+}
+.scroll-cue:hover { color: var(--accent); }
+@keyframes nudge {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
+}
+
+/* -------------------------------------------------------------------------
+   7. Cards (projects, GitHub repos)
+   ------------------------------------------------------------------------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: var(--space-md);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+.card:hover { border-color: var(--accent); background: var(--accent-soft); }
+
+.card-title { margin-bottom: var(--space-xs); font-size: var(--step-0); }
+.card-title::before { content: "> "; color: var(--accent); }
+
+.card-body { color: var(--text-muted); font-size: var(--step--1); }
+.card-muted { opacity: 0.55; }
+
+/* Pushes links to the bottom so cards of differing heights line up. */
+.card-links {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: auto;
+  padding-top: var(--space-md);
+  font-size: var(--step--1);
+}
+
+/* -------------------------------------------------------------------------
+   8. Skills
+   ------------------------------------------------------------------------- */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-lg) var(--space-md);
+}
+
+.skill-heading {
+  font-size: var(--step-0);
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--space-xs);
+}
+.skill-heading::before { content: "// "; color: var(--border-bright); }
+.skill-group .tags { margin-top: 0; }
+
+/* -------------------------------------------------------------------------
+   9. Experience timeline
+   ------------------------------------------------------------------------- */
+.timeline { display: grid; gap: var(--space-lg); }
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  gap: var(--space-md);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border);
+}
+.timeline-item:first-child { padding-top: 0; border-top: none; }
+
+.timeline-date { font-size: var(--step--1); color: var(--text-muted); }
+
+.timeline-role { margin-bottom: 0; font-size: var(--step-0); }
+.timeline-org {
+  color: var(--accent);
+  font-size: var(--step--1);
+  margin-bottom: var(--space-sm);
+}
+.timeline-body p { font-size: var(--step--1); color: var(--text-muted); }
+
+/* -------------------------------------------------------------------------
+   10. About
+   ------------------------------------------------------------------------- */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr minmax(15rem, 20rem);
+  gap: var(--space-xl);
+  align-items: start;
+}
+.about-grid p { font-size: var(--step--1); color: var(--text-muted); }
+.about-grid .skill-heading { margin-top: var(--space-md); }
+.about-grid > div > .skill-heading:first-child { margin-top: 0; }
+
+.about-aside {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+}
+.about-aside .btn { margin-top: var(--space-md); }
+
+/* -------------------------------------------------------------------------
+   11. Contact form
+   ------------------------------------------------------------------------- */
+.contact-form { display: grid; gap: var(--space-md); }
+
+.field { display: grid; gap: 0.35rem; }
+
+.field label { font-size: var(--step--1); color: var(--text-muted); }
+.field label::before { content: "$ "; color: var(--accent); }
+
+.field input,
+.field textarea {
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.55rem 0.7rem;
+  width: 100%;
+  resize: vertical;
+}
+.field input:focus-visible,
+.field textarea:focus-visible { border-color: var(--accent); }
+
+.contact-form .btn { justify-self: start; }
+
+.contact-fallback {
+  margin-top: var(--space-lg);
+  font-size: var(--step--1);
+  color: var(--text-muted);
+}
+
+/* -------------------------------------------------------------------------
+   12. Footer
+   ------------------------------------------------------------------------- */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding-block: var(--space-lg);
+  font-size: var(--step--1);
+  color: var(--text-muted);
+}
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* -------------------------------------------------------------------------
+   13. Responsive
+   The grids above are intrinsically responsive, so only the two fixed-column
+   layouts and a little spacing need adjusting.
+   ------------------------------------------------------------------------- */
+@media (max-width: 48rem) {
+  :root { --space-2xl: 3.5rem; }
+
+  .timeline-item,
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-sm);
+  }
+  .about-grid { gap: var(--space-lg); }
+
+  /* The nav scrolls sideways when the links stop fitting. Its scrollbar is
+     hidden, so fade the right edge instead: a link dissolving off the edge
+     reads as "there is more this way", where a hard cut just looks clipped.
+     A mask uses only the alpha of the gradient, so the colour is arbitrary.
+
+     Scoped to this breakpoint because CSS cannot ask "does this overflow?" —
+     that needs JS (nav.scrollWidth > nav.clientWidth). The width is a good
+     enough proxy here and costs one declaration instead of a resize handler. */
+  .nav {
+    margin-inline: auto 0;
+    mask-image: linear-gradient(to right, #000 85%, transparent);
+  }
+  .nav-list { gap: var(--space-sm); }
+
+  .terminal-body { padding: var(--space-sm); }
+  .scroll-cue { display: none; }
+}
