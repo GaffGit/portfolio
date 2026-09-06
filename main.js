@@ -23,6 +23,9 @@ const cursor = document.querySelector('#boot-cursor .cursor');
 const historyEl = document.getElementById('history');
 const terminal = document.getElementById('terminal');
 
+const commandHistory = [];
+let historyIndex = 0;
+
 const commands = {
    help: () => print("Available commands: " + Object.keys(commands).join(', ')),
    ls: () => { const array = Array.from(sections);
@@ -177,9 +180,32 @@ promptForm.addEventListener('submit', event => {
    cmdInput.value = '';
    if(!userInput) return;
 
+   commandHistory.push(userInput);
+   historyIndex = commandHistory.length;
    echoCommand(userInput);
    runCommand(userInput);
    terminal.scrollTop = terminal.scrollHeight;
+})
+
+cmdInput.addEventListener('keydown', event => {
+   if(event.key === 'ArrowUp') {
+      event.preventDefault();
+      if(historyIndex <= 0) {
+         return;
+      }
+      historyIndex -= 1;
+      cmdInput.value = commandHistory[historyIndex];
+   }
+   if(event.key === 'ArrowDown') {
+      event.preventDefault();
+      historyIndex += 1;
+      if(commandHistory.length <= historyIndex) {
+         historyIndex = commandHistory.length;
+         cmdInput.value = '';
+         return;
+      }
+      cmdInput.value = commandHistory[historyIndex];
+   }
 })
 
 function echoCommand(user) {
@@ -222,5 +248,3 @@ function runCommand(input) {
    }
    command(args);
 }
-
-
